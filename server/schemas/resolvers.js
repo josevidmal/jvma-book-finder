@@ -43,7 +43,16 @@ const resolvers = {
             return { token, user };
         },
         saveBook: async (parent, { bookId }, context) => {
+            if (context.user) {
+                const updatedUser = await User.findOneAndUpdate(
+                    { _id: context.user._id },
+                    { $push: { savedBooks: bookId } }
+                    // do I need to mark this as new???
+                );
 
+                return updatedUser;
+            }
+            throw new AuthenticationError('Please login to proceed');
         },
         removeBook: async (parent, { bookId }, context) => {
             if (context.user) {
