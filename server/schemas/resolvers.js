@@ -1,12 +1,12 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User, Book } = require('../models');
+const { User } = require('../models');
 const { signToken } = require('../utils/auth');
 
 const resolvers = {
     Query: {
         me: async (parent, args, context) => {
             if (context.user) {
-                return User.findOne({ _id: context.user.id }).populate('books');
+                return User.findOne({ _id: context.user.id }).populate('savedBooks');
             } 
             throw new AuthenticationError('You must be logged in!');
         },
@@ -37,30 +37,21 @@ const resolvers = {
         },
         saveBook: async (parent, { input }, context) => {
             if (context.user) {
-                const updatedUser = await User.findOneAndUpdate(
+                return User.findOneAndUpdate(
                     { _id: context.user._id },
-                    { $push: { savedBooks: input } },
+                    { $addToSet: { savedBooks: input } },
                     { new: true, runValidators: true }
                 );
-
-                return updatedUser;
             }
             throw new AuthenticationError('Please login to proceed');
         },
         removeBook: async (parent, { bookId }, context) => {
             if (context.user) {
-                const book = await Book.findOneAndDelete({
-                    _id: bookId,
-                    bookUser: context.user.username,
-                });
-
-                await User.findOneAndUpdate(
+                return User.findOneAndUpdate(
                     { _id: context.user._id },
-                    { $pull: { books: book._id } },
+                    { $pull: { savedBooks: { bookId: bookId } } },
                     { new: true }
                 );
-
-                return book;
             }
             throw new AuthenticationError('Please login to proceed');
         },

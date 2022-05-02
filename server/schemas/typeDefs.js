@@ -10,8 +10,8 @@ const typeDefs = gql`
     }
 
     type Book {
-        bookId: ID
-        authors: [String]!
+        bookId: String
+        authors: [String]
         description: String
         title: String
         image: String
@@ -28,10 +28,10 @@ const typeDefs = gql`
     }
 
     input BookInput {
-        author: [String]
+        bookId: String
+        authors: [String]
         description: String
         title: String
-        bookId: ID!
         image: String
         link: String
     }
@@ -40,7 +40,7 @@ const typeDefs = gql`
         loginUser(email: String!, password: String!): Auth
         addUser(username: String!, email: String!, password: String!): Auth
         saveBook(input: BookInput): User
-        removeBook(bookId: ID!): User 
+        removeBook(bookId: String!): User 
     }
 `;
 
