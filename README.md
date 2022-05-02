@@ -13,9 +13,9 @@ The following part was to refactor several files in the Front-End. First, I crea
 
 Finally, again in the Front-End, I modified the code in `SignupForm.js`, replacing the `addUser()` functionality with the `ADD_USER` mutation. The last part was to modify the code in `LoginForm.js`, replacing the `loginUser()` functionality with the `LOGIN_USER` mutation.
 
-## Usage & [Deployed Application]()
+## Usage & [Deployed Application](https://jvma-book-finder.herokuapp.com/)
 
-This is the link to the deployed application in Heroku: 
+This is the link to the deployed application in Heroku: https://jvma-book-finder.herokuapp.com/
 
 Here are some images of the application in use:
 
